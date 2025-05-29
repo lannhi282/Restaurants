@@ -1,148 +1,143 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danh Sách Nhà Hàng - Restaurant Finder</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <nav class="navbar">
-        <div class="nav-brand">
-          <i class="fas fa-utensils"></i>
-          <span>Restaurant Finder</span>
-        </div>
-        <div class="nav-menu">
-          <a href="index.html" class="nav-link">Trang Chủ</a>
-          <a href="restaurants.html" class="nav-link active">Nhà Hàng</a>
-          <a href="users.html" class="nav-link">Người Dùng</a>
-        </div>
-        <div class="nav-toggle">
-          <i class="fas fa-bars"></i>
-        </div>
-      </nav>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Danh Sách Nhà Hàng - Restaurant Finder</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurant Finder</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Trang Chủ</a>
+                    <a href="restaurants.html" class="nav-link active">Nhà Hàng</a>
+                    <a href="users.html" class="nav-link">Người Dùng</a>
+                    <a href="recommendations.html" class="nav-link">Gợi Ý</a>
+                </div>
+                <div class="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </header>
 
-    <!-- Restaurant List Section -->
-    <section id="restaurants" class="restaurants">
-      <div class="container">
-        <h2>Danh Sách Nhà Hàng</h2>
-        <!-- Filters Section -->
-        <div class="filters">
-          <h3>Bộ lọc</h3>
-          <div class="filter-grid">
-            <div class="filter-group">
-              <label for="searchInput">Tìm kiếm:</label>
-              <input
-                type="text"
-                id="searchInput"
-                placeholder="Tên nhà hàng, địa chỉ..."
-              />
-            </div>
-            <div class="filter-group">
-              <label for="cuisineFilter">Loại ẩm thực:</label>
-              <select id="cuisineFilter">
-                <option value="">Tất cả</option>
-                <option value="Spanish">Spanish</option>
-                <option value="Japanese">Japanese</option>
-                <option value="Mexican">Mexican</option>
-                <option value="Italian">Italian</option>
-              </select>
-            </div>
-            <div class="filter-group">
-              <label for="priceFilter">Mức giá:</label>
-              <select id="priceFilter">
-                <option value="">Tất cả</option>
-                <option value="low">Rẻ ($)</option>
-                <option value="medium">Trung bình ($$)</option>
-                <option value="high">Cao ($$$)</option>
-              </select>
-            </div>
-            <div class="filter-group">
-              <label for="ratingFilter">Đánh giá tối thiểu:</label>
-              <select id="ratingFilter">
-                <option value="">Tất cả</option>
-                <option value="1">1+ sao</option>
-                <option value="2">2+ sao</option>
-                <option value="3">3+ sao</option>
-                <option value="4">4+ sao</option>
-              </select>
-            </div>
+        <!-- Restaurant List Section -->
+        <section id="restaurants" class="restaurants">
+            <div class="container">
+                <h2>Danh Sách Nhà Hàng</h2>
+                <!-- Filters Section -->
+                <div class="filters">
+                    <h3>Bộ lọc</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="searchInput">Tìm kiếm:</label>
+                            <input type="text" id="searchInput" placeholder="Tên nhà hàng, địa chỉ..." />
+                        </div>
+                        <div class="filter-group">
+                            <label for="cuisineFilter">Loại ẩm thực:</label>
+                            <select id="cuisineFilter">
+                                <option value="">Tất cả</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Italian">Italian</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="priceFilter">Mức giá:</label>
+                            <select id="priceFilter">
+                                <option value="">Tất cả</option>
+                                <option value="low">Rẻ ($)</option>
+                                <option value="medium">Trung bình ($$)</option>
+                                <option value="high">Cao ($$$)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="ratingFilter">Đánh giá tối thiểu:</label>
+                            <select id="ratingFilter">
+                                <option value="">Tất cả</option>
+                                <option value="1">1+ sao</option>
+                                <option value="2">2+ sao</option>
+                                <option value="3">3+ sao</option>
+                                <option value="4">4+ sao</option>
+                            </select>
+                        </div>
 
-            <div class="filter-group">
-              <label for="parkingFilter">Bãi đổ xe:</label>
-              <select id="parkingFilter">
-                <option value="">Tất cả</option>
-                <option value="yes">Có</option>
-                <option value="none">Không</option>
-                <option value="public">Công cộng</option>
-                <option value="valet parking">Valet</option>
-              </select>
-            </div>
-            <button class="clear-btn" id="clearFilters">Xóa bộ lọc</button>
-          </div>
-        </div>
+                        <div class="filter-group">
+                            <label for="parkingFilter">Bãi đổ xe:</label>
+                            <select id="parkingFilter">
+                                <option value="">Tất cả</option>
+                                <option value="yes">Có</option>
+                                <option value="none">Không</option>
+                                <option value="public">Công cộng</option>
+                                <option value="valet parking">Valet</option>
+                            </select>
+                        </div>
+                        <button class="clear-btn" id="clearFilters">Xóa bộ lọc</button>
+                    </div>
+                </div>
 
-        <div class="restaurant-stats">
-          <span id="restaurantCount">0 nhà hàng</span>
-          <div class="sort-controls">
-            <label>Sắp xếp theo:</label>
-            <select id="sortBy">
-              <option value="name">Tên</option>
-              <option value="rating">Đánh giá</option>
-              <option value="price">Giá</option>
-            </select>
-          </div>
-        </div>
-        <div id="restaurantGrid" class="users-grid">
-          <!-- Restaurants will be loaded here -->
-        </div>
-        <div id="loadingSpinner" class="loading">
-          <i class="fas fa-spinner fa-spin"></i>
-          <p>Đang tải dữ liệu...</p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <div class="footer-title">
-              <i class="fas fa-utensils"></i>
-              <h4>Restaurant Finder</h4>
+                <div class="restaurant-stats">
+                    <span id="restaurantCount">0 nhà hàng</span>
+                    <div class="sort-controls">
+                        <label>Sắp xếp theo:</label>
+                        <select id="sortBy">
+                            <option value="name">Tên</option>
+                            <option value="rating">Đánh giá</option>
+                            <option value="price">Giá</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="restaurantGrid" class="users-grid">
+                    <!-- Restaurants will be loaded here -->
+                </div>
+                <div id="loadingSpinner" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Đang tải dữ liệu...</p>
+                </div>
             </div>
-            <p>Khám phá những nhà hàng tuyệt vời phù hợp với bạn!</p>
-          </div>
-          <div class="footer-section">
-            <h4>Liên Kết</h4>
-            <ul>
-              <li><a href="index.html">Trang Chủ</a></li>
-              <li><a href="restaurants.html">Nhà Hàng</a></li>
-              <li><a href="users.html">Người Dùng</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h4>Theo Dõi</h4>
-            <div class="social-links vertical">
-              <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-              <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
-              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            </div>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>© 2025 Restaurant Finder. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+        </section>
 
-    <script src="restaurants.js"></script>
-  </body>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-title">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Restaurant Finder</h4>
+                        </div>
+                        <p>Khám phá những nhà hàng tuyệt vời phù hợp với bạn!</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Liên Kết</h4>
+                        <ul>
+                            <li><a href="index.html">Trang Chủ</a></li>
+                            <li><a href="restaurants.html">Nhà Hàng</a></li>
+                            <li><a href="users.html">Người Dùng</a></li>
+                            <li><a href="recommendations.html">Gợi Ý</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Theo Dõi</h4>
+                        <div class="social-links vertical">
+                            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2025 Restaurant Finder. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="restaurants.js"></script>
+    </body>
 </html>

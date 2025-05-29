@@ -1,103 +1,8 @@
+// API Base URL
+const API_BASE_URL = "http://localhost:5000/api";
+
 // Global variables
-let restaurantsData = [];
-let cuisinesData = [];
-let ratingsData = [];
-let hoursData = [];
-let acceptsData = [];
-let parkingData = [];
-
-// Sample data (same as script.js)
-const sampleRestaurants = [
-  {
-    placeID: "135110",
-    name: "El Rincon de San Francisco",
-    address: "Universidad 169",
-    city: "San Luis Potosi",
-    latitude: 22.1497088,
-    longitude: -100.9760928,
-    alcohol: "Wine-Beer",
-    smoking_area: "only at bar",
-    dress_code: "informal",
-    accessibility: "partially",
-    price: "medium",
-    Rambience: "familiar",
-    franchise: "f",
-    area: "open",
-    other_services: "none",
-  },
-  {
-    placeID: "134999",
-    name: "Kiku Cuernavaca",
-    address: "Revolucion",
-    city: "Cuernavaca",
-    latitude: 18.915421,
-    longitude: -99.184871,
-    alcohol: "No_Alcohol_Served",
-    smoking_area: "none",
-    dress_code: "informal",
-    accessibility: "no_accessibility",
-    price: "medium",
-    Rambience: "familiar",
-    franchise: "f",
-    area: "closed",
-    other_services: "none",
-  },
-  {
-    placeID: "135111",
-    name: "La Terraza del Sol",
-    address: "Calle Sol 45",
-    city: "Guadalajara",
-    latitude: 20.659698,
-    longitude: -103.349609,
-    alcohol: "Full_Bar",
-    smoking_area: "section",
-    dress_code: "formal",
-    accessibility: "yes",
-    price: "high",
-    Rambience: "friends",
-    franchise: "t",
-    area: "closed",
-    other_services: "wifi",
-  },
-];
-
-const sampleCuisines = [
-  { placeID: "135110", Rcuisine: "Spanish" },
-  { placeID: "134999", Rcuisine: "Japanese" },
-];
-
-const sampleRatings = [
-  {
-    userID: "U1077",
-    placeID: "135110",
-    rating: 2,
-    food_rating: 2,
-    service_rating: 2,
-  },
-  {
-    userID: "U1068",
-    placeID: "134999",
-    rating: 1,
-    food_rating: 1,
-    service_rating: 2,
-  },
-];
-
-const sampleHours = [
-  { placeID: "135110", hours: "12:00-22:00", days: "Mon-Sun" },
-  { placeID: "134999", hours: "11:00-21:00", days: "Mon-Sat" },
-];
-
-const sampleAccepts = [
-  { placeID: "135110", Rpayment: "cash" },
-  { placeID: "135110", Rpayment: "VISA" },
-  { placeID: "134999", Rpayment: "cash" },
-];
-
-const sampleParking = [
-  { placeID: "135110", parking_lot: "yes" },
-  { placeID: "134999", parking_lot: "none" },
-];
+let restaurantData = null;
 
 // DOM Elements
 const restaurantName = document.getElementById("restaurantName");
@@ -113,309 +18,380 @@ const recentReviews = document.getElementById("recentReviews");
 const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector(".nav-menu");
 
-// Initialize
-document.addEventListener("DOMContentLoaded", function () {
-  loadSampleData();
-  setupEventListeners();
-  displayRestaurantDetail();
-});
-
-function loadSampleData() {
-  restaurantsData = sampleRestaurants;
-  cuisinesData = sampleCuisines;
-  ratingsData = sampleRatings;
-  hoursData = sampleHours;
-  acceptsData = sampleAccepts;
-  parkingData = sampleParking;
+// API Functions
+async function fetchRestaurantDetail(placeID) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/restaurant/${placeID}`);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: Failed to fetch restaurant detail`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching restaurant detail:", error);
+        throw error;
+    }
 }
 
-function setupEventListeners() {
-  navToggle.addEventListener("click", toggleMobileNav);
+// Initialize
+document.addEventListener("DOMContentLoaded", function () {
+    setupEventListeners();
+    loadRestaurantDetail();
+});
 
-  document.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.href = this.getAttribute("href");
+function setupEventListeners() {
+    if (navToggle) {
+        navToggle.addEventListener("click", toggleMobileNav);
+    }
+
+    document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.location.href = this.getAttribute("href");
+        });
     });
-  });
+}
+
+async function loadRestaurantDetail() {
+    try {
+        showLoading();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const placeID = urlParams.get("placeID");
+
+        if (!placeID) {
+            showError("Không tìm thấy ID nhà hàng trong URL");
+            return;
+        }
+
+        restaurantData = await fetchRestaurantDetail(placeID);
+        displayRestaurantDetail();
+        hideLoading();
+    } catch (error) {
+        console.error("Error loading restaurant detail:", error);
+        showError("Không thể tải thông tin nhà hàng. Vui lòng kiểm tra kết nối server.");
+        hideLoading();
+    }
 }
 
 function displayRestaurantDetail() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const placeID = urlParams.get("placeID");
-  const restaurant = restaurantsData.find((r) => r.placeID === placeID);
-
-  if (!restaurant) {
-    document.getElementById("restaurantDetail").innerHTML = `
+    if (!restaurantData) {
+        document.getElementById("restaurantDetail").innerHTML = `
             <div class="no-results">
                 <h3>Không tìm thấy nhà hàng</h3>
             </div>
         `;
-    return;
-  }
+        return;
+    }
 
-  // Display restaurant name and address
-  restaurantName.textContent = restaurant.name;
-  restaurantAddress.textContent = `${restaurant.address || "N/A"}, ${
-    restaurant.city || "N/A"
-  }`;
+    // Display restaurant name and address
+    if (restaurantName) {
+        restaurantName.textContent = restaurantData.name;
+    }
+    if (restaurantAddress) {
+        restaurantAddress.textContent = `${restaurantData.address || "N/A"}, ${restaurantData.city || "N/A"}`;
+    }
 
-  // Display basic info
-  basicInfo.innerHTML = `
-        <div class="detail-row">
-            <strong>Mức giá:</strong> ${getPriceDisplay(restaurant.price)}
-        </div>
-        <div class="detail-row">
-            <strong>Rượu/Bia:</strong> ${getAlcoholDisplay(restaurant.alcohol)}
-        </div>
-        <div class="detail-row">
-            <strong>Khu vực hút thuốc:</strong> ${getSmokingDisplay(
-              restaurant.smoking_area
-            )}
-        </div>
-        <div class="detail-row">
-            <strong>Tiếp cận:</strong> ${getAccessibilityDisplay(
-              restaurant.accessibility
-            )}
-        </div>
-        <div class="detail-row">
-            <strong>Dress code:</strong> ${getDressCodeDisplay(
-              restaurant.dress_code
-            )}
-        </div>
-        <div class="detail-row">
-            <strong>Không gian:</strong> ${getAmbienceDisplay(
-              restaurant.Rambience
-            )}
-        </div>
-        <div class="detail-row">
-            <strong>Franchise:</strong> ${
-              restaurant.franchise === "t" ? "Có" : "Không"
-            }
-        </div>
-        <div class="detail-row">
-            <strong>Khu vực:</strong> ${getAreaDisplay(restaurant.area)}
-        </div>
-        <div class="detail-row">
-            <strong>Dịch vụ khác:</strong> ${
-              restaurant.other_services || "Không có"
-            }
-        </div>
-        <div class="detail-row">
-            <strong>Đỗ xe:</strong> ${getParkingDisplay(
-              parkingData.find((p) => p.placeID === restaurant.placeID)
-                ?.parking_lot || "N/A"
-            )}
-        </div>
-    `;
+    // Display basic info
+    if (basicInfo) {
+        basicInfo.innerHTML = `
+            <div class="detail-row">
+                <strong>Mức giá:</strong> ${getPriceDisplay(restaurantData.price)}
+            </div>
+            <div class="detail-row">
+                <strong>Rượu/Bia:</strong> ${getAlcoholDisplay(restaurantData.alcohol)}
+            </div>
+            <div class="detail-row">
+                <strong>Khu vực hút thuốc:</strong> ${getSmokingDisplay(restaurantData.smoking_area)}
+            </div>
+            <div class="detail-row">
+                <strong>Tiếp cận:</strong> ${getAccessibilityDisplay(restaurantData.accessibility)}
+            </div>
+            <div class="detail-row">
+                <strong>Dress code:</strong> ${getDressCodeDisplay(restaurantData.dress_code)}
+            </div>
+            <div class="detail-row">
+                <strong>Dịch vụ khác:</strong> ${restaurantData.other_services || "Không có"}
+            </div>
+            <div class="detail-row">
+                <strong>Đỗ xe:</strong> ${getParkingDisplay(restaurantData.parking)}
+            </div>
+            <div class="detail-row">
+                <strong>Quốc gia:</strong> ${restaurantData.country || "N/A"}
+            </div>
+            <div class="detail-row">
+                <strong>Bang/Tỉnh:</strong> ${restaurantData.state || "N/A"}
+            </div>
+        `;
+    }
 
-  // Display cuisines
-  const cuisines = cuisinesData
-    .filter((c) => c.placeID === restaurant.placeID)
-    .map((c) => c.Rcuisine);
-  cuisineTags.innerHTML =
-    cuisines.length > 0
-      ? cuisines
-          .map((cuisine) => `<span class="cuisine-tag">${cuisine}</span>`)
-          .join("")
-      : "<span>Không có thông tin</span>";
+    // Display cuisines
+    if (cuisineTags) {
+        const cuisines = restaurantData.cuisines || [];
+        cuisineTags.innerHTML = cuisines.length > 0 ? cuisines.map((cuisine) => `<span class="cuisine-tag">${cuisine}</span>`).join("") : "<span>Không có thông tin</span>";
+    }
 
-  // Display payment methods
-  const payments = acceptsData
-    .filter((a) => a.placeID === restaurant.placeID)
-    .map((a) => a.Rpayment);
-  paymentTags.innerHTML =
-    payments.length > 0
-      ? payments
-          .map((payment) => `<span class="payment-tag">${payment}</span>`)
-          .join("")
-      : "<span>Không có thông tin</span>";
+    // Display payment methods
+    if (paymentTags) {
+        const payments = restaurantData.payments || [];
+        paymentTags.innerHTML = payments.length > 0 ? payments.map((payment) => `<span class="payment-tag">${payment}</span>`).join("") : "<span>Không có thông tin</span>";
+    }
 
-  // Display hours with status
-  const hours = hoursData.filter((h) => h.placeID === restaurant.placeID);
-  hoursInfo.innerHTML =
-    hours.length > 0
-      ? hours
-          .map((h) => {
-            const isOpen = checkIfOpen(h.hours, h.days);
-            return `
-              <div class="detail-row">
-                  <strong>${h.days}:</strong> ${h.hours}
-                  <span class="status ${isOpen ? "open" : "closed"}">
-                      (${isOpen ? "Đang mở" : "Đóng cửa"})
-                  </span>
-              </div>
-            `;
-          })
-          .join("")
-      : "<span>Không có thông tin</span>";
+    // Display hours
+    if (hoursInfo) {
+        const hours = restaurantData.hours || [];
+        hoursInfo.innerHTML =
+            hours.length > 0
+                ? hours
+                      .map((h) => {
+                          const isOpen = checkIfOpen(h.hours, h.days);
+                          return `
+                    <div class="detail-row">
+                        <strong>${h.days}:</strong> ${h.hours}
+                        <span class="status ${isOpen ? "open" : "closed"}">
+                            (${isOpen ? "Đang mở" : "Đóng cửa"})
+                        </span>
+                    </div>
+                `;
+                      })
+                      .join("")
+                : "<span>Không có thông tin</span>";
+    }
 
-  // Display ratings
-  const restaurantRatings = ratingsData.filter(
-    (r) => r.placeID === restaurant.placeID
-  );
-  const avgRating = calculateAverageRating(restaurantRatings);
-  ratingStars.innerHTML = generateStars(avgRating);
-  ratingNumber.textContent = avgRating.toFixed(1) + "/5";
-  ratingCount.textContent = `(${restaurantRatings.length} đánh giá)`;
-  recentReviews.innerHTML = generateRecentReviews(restaurantRatings);
+    // Display ratings
+    const avgRating = restaurantData.average_rating || 0;
+    const ratingCountValue = restaurantData.rating_count || 0;
+
+    if (ratingStars) {
+        ratingStars.innerHTML = generateStars(avgRating);
+    }
+    if (ratingNumber) {
+        ratingNumber.textContent = avgRating.toFixed(1) + "/2"; // Rating scale is 0-2
+    }
+    if (ratingCount) {
+        ratingCount.textContent = `(${ratingCountValue} đánh giá)`;
+    }
+    if (recentReviews) {
+        recentReviews.innerHTML = generateRecentReviews(restaurantData.reviews || []);
+    }
 }
 
 function checkIfOpen(hours, days) {
-  const now = new Date("2025-05-25T23:19:00+07:00"); // Thời gian hiện tại
-  const currentDay = now.toLocaleString("en-US", { weekday: "short" }); // Sun, Mon, v.v.
-  const currentTime = now.getHours() * 60 + now.getMinutes(); // Phút kể từ nửa đêm
+    if (!hours || !days) return false;
 
-  // Kiểm tra ngày hiện tại có nằm trong khoảng days không
-  const daysArray = days.split(";").map((d) => d.trim());
-  const dayMatch = daysArray.some((dayRange) => {
-    if (dayRange.includes("-")) {
-      const [startDay, endDay] = dayRange.split("-").map((d) => d.trim());
-      const daysList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-      const startIndex = daysList.indexOf(startDay);
-      const endIndex = daysList.indexOf(endDay);
-      const currentIndex = daysList.indexOf(currentDay);
-      if (startIndex <= endIndex) {
-        return currentIndex >= startIndex && currentIndex <= endIndex;
-      } else {
-        return currentIndex >= startIndex || currentIndex <= endIndex;
-      }
-    } else {
-      return dayRange === currentDay;
+    const now = new Date();
+    const currentDay = now.toLocaleString("en-US", { weekday: "short" });
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+
+    // Simple check for day ranges like "mon-sun" or specific days
+    const daysLower = days.toLowerCase();
+    const currentDayLower = currentDay.toLowerCase();
+
+    const dayMatch = daysLower.includes(currentDayLower.substring(0, 3)) || daysLower.includes("mon-sun") || daysLower.includes("daily");
+
+    if (!dayMatch) return false;
+
+    try {
+        if (hours.includes("-")) {
+            const [openTime, closeTime] = hours.split("-").map((time) => {
+                const [h, m] = time.split(":").map(Number);
+                return h * 60 + (m || 0);
+            });
+            return currentTime >= openTime && currentTime <= closeTime;
+        }
+    } catch (error) {
+        console.log("Error parsing hours:", error);
     }
-  });
 
-  if (!dayMatch) return false;
-
-  // Kiểm tra giờ hiện tại có nằm trong khoảng hours không
-  const [openTime, closeTime] = hours.split("-").map((time) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
-  });
-
-  return currentTime >= openTime && currentTime <= closeTime;
+    return false;
 }
 
 function calculateAverageRating(ratings) {
-  if (ratings.length === 0) return 0;
-  const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0);
-  return sum / ratings.length;
+    if (ratings.length === 0) return 0;
+    const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0);
+    return sum / ratings.length;
 }
 
 function generateStars(rating) {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    // Convert rating from 0-2 scale to 0-5 scale for display
+    const scaledRating = (rating / 2) * 5;
+    const fullStars = Math.floor(scaledRating);
+    const hasHalfStar = scaledRating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
-  let stars = "";
-  for (let i = 0; i < fullStars; i++) {
-    stars += '<i class="fas fa-star"></i>';
-  }
-  if (hasHalfStar) {
-    stars += '<i class="fas fa-star-half-alt"></i>';
-  }
-  for (let i = 0; i < emptyStars; i++) {
-    stars += '<i class="far fa-star"></i>';
-  }
-  return stars;
+    let stars = "";
+    for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="fas fa-star"></i>';
+    }
+    if (hasHalfStar) {
+        stars += '<i class="fas fa-star-half-alt"></i>';
+    }
+    for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="far fa-star"></i>';
+    }
+    return stars;
 }
 
-function generateRecentReviews(ratings) {
-  if (ratings.length === 0) {
-    return "<p>Chưa có đánh giá nào.</p>";
-  }
+function generateRecentReviews(reviews) {
+    if (reviews.length === 0) {
+        return "<p>Chưa có đánh giá nào.</p>";
+    }
 
-  return ratings
-    .slice(0, 3)
-    .map(
-      (rating) => `
-        <div class="review-item">
-            <div class="reviewer">Người dùng ${rating.userID}</div>
-            <div class="review-ratings">
-                <span>Tổng thể: ${generateStars(rating.rating)}</span>
-                <span>Đồ ăn: ${generateStars(rating.food_rating)}</span>
-                <span>Dịch vụ: ${generateStars(rating.service_rating)}</span>
+    return reviews
+        .slice(0, 5) // Show top 5 reviews
+        .map(
+            (review) => `
+            <div class="review-item">
+                <div class="reviewer">Người dùng ${review.userID}</div>
+                <div class="review-ratings">
+                    <span>Tổng thể: ${generateStars(review.rating)}</span>
+                    ${review.food_rating ? `<span>Đồ ăn: ${generateStars(review.food_rating)}</span>` : ""}
+                    ${review.service_rating ? `<span>Dịch vụ: ${generateStars(review.service_rating)}</span>` : ""}
+                </div>
             </div>
-        </div>
-    `
-    )
-    .join("");
+        `
+        )
+        .join("");
 }
 
 function getPriceDisplay(price) {
-  const priceMap = {
-    low: "Rẻ ($)",
-    medium: "Trung bình ($$)",
-    high: "Cao ($$$)",
-  };
-  return priceMap[price] || "N/A";
+    const priceMap = {
+        low: "Rẻ ($)",
+        medium: "Trung bình ($$)",
+        high: "Cao ($$$)",
+    };
+    return priceMap[price] || "N/A";
 }
 
 function getAlcoholDisplay(alcohol) {
-  const alcoholMap = {
-    No_Alcohol_Served: "Không có rượu",
-    "Wine-Beer": "Rượu vang/Bia",
-    Full_Bar: "Đầy đủ",
-  };
-  return alcoholMap[alcohol] || "N/A";
+    const alcoholMap = {
+        No_Alcohol_Served: "Không có rượu",
+        "Wine-Beer": "Rượu vang/Bia",
+        Full_Bar: "Đầy đủ",
+    };
+    return alcoholMap[alcohol] || "N/A";
 }
 
 function getSmokingDisplay(smoking) {
-  const smokingMap = {
-    none: "Không hút thuốc",
-    section: "Khu vực riêng",
-    permitted: "Được phép",
-    "only at bar": "Chỉ tại quầy bar",
-    "not permitted": "Không được phép",
-  };
-  return smokingMap[smoking] || "N/A";
+    const smokingMap = {
+        none: "Không hút thuốc",
+        section: "Khu vực riêng",
+        permitted: "Được phép",
+        "only at bar": "Chỉ tại quầy bar",
+        "not permitted": "Không được phép",
+    };
+    return smokingMap[smoking] || "N/A";
 }
 
 function getAccessibilityDisplay(accessibility) {
-  const accessMap = {
-    no_accessibility: "Không",
-    completely: "Hoàn toàn",
-    partially: "Một phần",
-  };
-  return accessMap[accessibility] || "N/A";
+    const accessMap = {
+        no_accessibility: "Không",
+        completely: "Hoàn toàn",
+        partially: "Một phần",
+    };
+    return accessMap[accessibility] || "N/A";
 }
 
 function getDressCodeDisplay(dressCode) {
-  const dressCodeMap = {
-    informal: "Bình thường",
-    casual: "Thoải mái",
-    formal: "Trang trọng",
-  };
-  return dressCodeMap[dressCode] || "N/A";
-}
-
-function getAmbienceDisplay(ambience) {
-  const ambienceMap = {
-    familiar: "Gia đình",
-    quiet: "Yên tĩnh",
-    formal: "Trang trọng",
-  };
-  return ambienceMap[ambience] || "N/A";
-}
-
-function getAreaDisplay(area) {
-  const areaMap = {
-    open: "Mở",
-    closed: "Đóng",
-  };
-  return areaMap[area] || "N/A";
+    const dressCodeMap = {
+        informal: "Bình thường",
+        casual: "Thoải mái",
+        formal: "Trang trọng",
+    };
+    return dressCodeMap[dressCode] || "N/A";
 }
 
 function getParkingDisplay(parking) {
-  const parkingMap = {
-    yes: "Có",
-    none: "Không",
-    public: "Công cộng",
-    "valet parking": "Valet",
-  };
-  return parkingMap[parking] || "N/A";
+    if (!parking || parking.length === 0) return "N/A";
+
+    const parkingMap = {
+        yes: "Có",
+        none: "Không",
+        public: "Công cộng",
+        "valet parking": "Valet",
+    };
+
+    // If parking is an array, show the first option
+    const parkingOption = Array.isArray(parking) ? parking[0] : parking;
+    return parkingMap[parkingOption] || parkingOption || "N/A";
+}
+
+function showLoading() {
+    // Create loading spinner if it doesn't exist
+    let loadingDiv = document.getElementById("restaurant-detail-loading");
+    if (!loadingDiv) {
+        loadingDiv = document.createElement("div");
+        loadingDiv.id = "restaurant-detail-loading";
+        loadingDiv.className = "loading-spinner";
+        loadingDiv.style.cssText = `
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #6c757d;
+        `;
+        loadingDiv.innerHTML = `
+            <i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>
+            Đang tải thông tin nhà hàng...
+        `;
+
+        const detailContainer = document.getElementById("restaurantDetail");
+        if (detailContainer) {
+            detailContainer.appendChild(loadingDiv);
+        }
+    }
+    loadingDiv.style.display = "flex";
+}
+
+function hideLoading() {
+    const loadingDiv = document.getElementById("restaurant-detail-loading");
+    if (loadingDiv) {
+        loadingDiv.style.display = "none";
+    }
+}
+
+function showError(message) {
+    // Create error message element if it doesn't exist
+    let errorDiv = document.getElementById("restaurant-detail-error");
+    if (!errorDiv) {
+        errorDiv = document.createElement("div");
+        errorDiv.id = "restaurant-detail-error";
+        errorDiv.className = "error-message";
+        errorDiv.style.cssText = `
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border: 1px solid #f5c6cb;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        `;
+
+        const detailContainer = document.getElementById("restaurantDetail");
+        if (detailContainer) {
+            detailContainer.appendChild(errorDiv);
+        }
+    }
+
+    errorDiv.innerHTML = `
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>${message}</span>
+    `;
+    errorDiv.style.display = "flex";
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        if (errorDiv) {
+            errorDiv.style.display = "none";
+        }
+    }, 5000);
 }
 
 function toggleMobileNav() {
-  navMenu.classList.toggle("active");
+    if (navMenu) {
+        navMenu.classList.toggle("active");
+    }
 }

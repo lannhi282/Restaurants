@@ -1,246 +1,194 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Restaurant Finder - Tìm Nhà Hàng Yêu Thích</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <nav class="navbar">
-        <div class="nav-brand">
-          <i class="fas fa-utensils"></i>
-          <span>Restaurant Finder</span>
-        </div>
-        <div class="nav-menu">
-          <a href="index.html" class="nav-link active">Trang Chủ</a>
-          <a href="restaurants.html" class="nav-link">Nhà Hàng</a>
-          <a href="users.html" class="nav-link">Người Dùng</a>
-        </div>
-        <div class="nav-toggle">
-          <i class="fas fa-bars"></i>
-        </div>
-      </nav>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Restaurant Finder - Tìm Nhà Hàng Yêu Thích</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurant Finder</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">Trang Chủ</a>
+                    <a href="restaurants.html" class="nav-link">Nhà Hàng</a>
+                    <a href="users.html" class="nav-link">Người Dùng</a>
+                    <a href="recommendations.html" class="nav-link">Gợi Ý</a>
+                </div>
+                <div class="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Khám Phá Những Nhà Hàng Tuyệt Vời</h1>
-        <p>Tìm kiếm và khám phá các nhà hàng phù hợp với sở thích của bạn</p>
-        <div class="search-box">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Tìm kiếm nhà hàng, món ăn..."
-          />
-          <button id="searchBtn"><i class="fas fa-search"></i></button>
-        </div>
-      </div>
-    </section>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Khám Phá Những Nhà Hàng Tuyệt Vời</h1>
+                <p>Tìm kiếm và khám phá các nhà hàng phù hợp với sở thích của bạn</p>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm nhà hàng, món ăn..." />
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
 
-    <!-- Featured Restaurants Section -->
-    <section id="restaurants" class="restaurants">
-      <div class="container">
-        <h2>Nhà Hàng Nổi Bật</h2>
-        <div id="restaurantGrid" class="restaurant-grid">
-          <a
-            class="restaurant-card"
-            href="restaurant-detail.html?placeID=135110"
-          >
-            <div class="restaurant-header">
-              <div class="restaurant-name">El Rincon de San Francisco</div>
-              <div class="restaurant-address">
-                <i class="fas fa-map-marker-alt"></i>
-                Universidad 169, San Luis Potosi
-              </div>
-            </div>
-            <div class="restaurant-info">
-              <div class="restaurant-details">
-                <div class="detail-item">
-                  <i class="fas fa-dollar-sign"></i><span>Trung bình ($$)</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-wine-glass"></i><span>Rượu vang/Bia</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-smoking"></i><span>Chỉ tại quầy bar</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-parking"></i><span>Có</span>
-                </div>
-              </div>
-              <div class="cuisine-tags">
-                <span class="cuisine-tag">Spanish</span>
-              </div>
-              <div class="restaurant-rating">
-                <div class="rating-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="far fa-star"></i><i class="far fa-star"></i
-                  ><i class="far fa-star"></i>
-                </div>
-                <span class="rating-number">2.0</span>
-                <span class="rating-count">(1)</span>
-                <span class="status open">Đang mở</span>
-              </div>
-            </div>
-          </a>
+        <!-- Featured Restaurants Section -->
+        <section id="restaurants" class="restaurants">
+            <div class="container">
+                <h2>Nhà Hàng Nổi Bật</h2>
+                <div id="restaurantGrid" class="restaurant-grid">
+                    <a class="restaurant-card" href="restaurant-detail.html?placeID=135110">
+                        <div class="restaurant-header">
+                            <div class="restaurant-name">El Rincon de San Francisco</div>
+                            <div class="restaurant-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Universidad 169, San Luis Potosi
+                            </div>
+                        </div>
+                        <div class="restaurant-info">
+                            <div class="restaurant-details">
+                                <div class="detail-item"><i class="fas fa-dollar-sign"></i><span>Trung bình ($$)</span></div>
+                                <div class="detail-item"><i class="fas fa-wine-glass"></i><span>Rượu vang/Bia</span></div>
+                                <div class="detail-item"><i class="fas fa-smoking"></i><span>Chỉ tại quầy bar</span></div>
+                                <div class="detail-item"><i class="fas fa-parking"></i><span>Có</span></div>
+                            </div>
+                            <div class="cuisine-tags">
+                                <span class="cuisine-tag">Spanish</span>
+                            </div>
+                            <div class="restaurant-rating">
+                                <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                                <span class="rating-number">2.0</span>
+                                <span class="rating-count">(1)</span>
+                                <span class="status open">Đang mở</span>
+                            </div>
+                        </div>
+                    </a>
 
-          <a
-            class="restaurant-card"
-            href="restaurant-detail.html?placeID=134999"
-          >
-            <div class="restaurant-header">
-              <div class="restaurant-name">Kiku Cuernavaca</div>
-              <div class="restaurant-address">
-                <i class="fas fa-map-marker-alt"></i>
-                Revolucion, Cuernavaca
-              </div>
-            </div>
-            <div class="restaurant-info">
-              <div class="restaurant-details">
-                <div class="detail-item">
-                  <i class="fas fa-dollar-sign"></i><span>Trung bình ($$)</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-wine-glass"></i><span>Không có rượu</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-smoking"></i><span>Không hút thuốc</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-parking"></i><span>Không</span>
-                </div>
-              </div>
-              <div class="cuisine-tags">
-                <span class="cuisine-tag">Japanese</span>
-              </div>
-              <div class="restaurant-rating">
-                <div class="rating-stars">
-                  <i class="fas fa-star"></i><i class="far fa-star"></i
-                  ><i class="far fa-star"></i><i class="far fa-star"></i
-                  ><i class="far fa-star"></i>
-                </div>
-                <span class="rating-number">1.0</span>
-                <span class="rating-count">(1)</span>
-                <span class="status open">Đang mở</span>
-              </div>
-            </div>
-          </a>
+                    <a class="restaurant-card" href="restaurant-detail.html?placeID=134999">
+                        <div class="restaurant-header">
+                            <div class="restaurant-name">Kiku Cuernavaca</div>
+                            <div class="restaurant-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Revolucion, Cuernavaca
+                            </div>
+                        </div>
+                        <div class="restaurant-info">
+                            <div class="restaurant-details">
+                                <div class="detail-item"><i class="fas fa-dollar-sign"></i><span>Trung bình ($$)</span></div>
+                                <div class="detail-item"><i class="fas fa-wine-glass"></i><span>Không có rượu</span></div>
+                                <div class="detail-item"><i class="fas fa-smoking"></i><span>Không hút thuốc</span></div>
+                                <div class="detail-item"><i class="fas fa-parking"></i><span>Không</span></div>
+                            </div>
+                            <div class="cuisine-tags">
+                                <span class="cuisine-tag">Japanese</span>
+                            </div>
+                            <div class="restaurant-rating">
+                                <div class="rating-stars"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                                <span class="rating-number">1.0</span>
+                                <span class="rating-count">(1)</span>
+                                <span class="status open">Đang mở</span>
+                            </div>
+                        </div>
+                    </a>
 
-          <a
-            class="restaurant-card"
-            href="restaurant-detail.html?placeID=135111"
-          >
-            <div class="restaurant-header">
-              <div class="restaurant-name">La Terraza del Sol</div>
-              <div class="restaurant-address">
-                <i class="fas fa-map-marker-alt"></i>
-                Calle Sol 45, Guadalajara
-              </div>
+                    <a class="restaurant-card" href="restaurant-detail.html?placeID=135111">
+                        <div class="restaurant-header">
+                            <div class="restaurant-name">La Terraza del Sol</div>
+                            <div class="restaurant-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Calle Sol 45, Guadalajara
+                            </div>
+                        </div>
+                        <div class="restaurant-info">
+                            <div class="restaurant-details">
+                                <div class="detail-item"><i class="fas fa-dollar-sign"></i><span>Cao ($$$)</span></div>
+                                <div class="detail-item"><i class="fas fa-wine-glass"></i><span>Đầy đủ</span></div>
+                                <div class="detail-item"><i class="fas fa-smoking"></i><span>Khu vực riêng</span></div>
+                                <div class="detail-item"><i class="fas fa-parking"></i><span>N/A</span></div>
+                            </div>
+                            <div class="cuisine-tags">
+                                <!-- Cuisine chưa khai báo -->
+                            </div>
+                            <div class="restaurant-rating">
+                                <div class="rating-stars"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                                <span class="rating-number">0.0</span>
+                                <span class="rating-count">(0)</span>
+                                <span class="status closed">Đóng cửa</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="text-center mt-2">
+                    <a href="restaurants.html" class="view-all-link">Xem tất cả nhà hàng</a>
+                </div>
             </div>
-            <div class="restaurant-info">
-              <div class="restaurant-details">
-                <div class="detail-item">
-                  <i class="fas fa-dollar-sign"></i><span>Cao ($$$)</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-wine-glass"></i><span>Đầy đủ</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-smoking"></i><span>Khu vực riêng</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-parking"></i><span>N/A</span>
-                </div>
-              </div>
-              <div class="cuisine-tags">
-                <!-- Cuisine chưa khai báo -->
-              </div>
-              <div class="restaurant-rating">
-                <div class="rating-stars">
-                  <i class="far fa-star"></i><i class="far fa-star"></i
-                  ><i class="far fa-star"></i><i class="far fa-star"></i
-                  ><i class="far fa-star"></i>
-                </div>
-                <span class="rating-number">0.0</span>
-                <span class="rating-count">(0)</span>
-                <span class="status closed">Đóng cửa</span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="text-center mt-2">
-          <a href="restaurants.html" class="view-all-link"
-            >Xem tất cả nhà hàng</a
-          >
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- Stats Section -->
-    <section id="stats" class="stats">
-      <div class="container">
-        <h2>Thống Kê Người Dùng</h2>
-        <div class="user-stats">
-          <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <h3 id="totalUsers">0</h3>
-            <p>Tổng Người Dùng</p>
-          </div>
-          <div class="stat-card">
-            <i class="fas fa-star"></i>
-            <h3 id="totalReviews">0</h3>
-            <p>Tổng Đánh Giá</p>
-          </div>
-          <div class="stat-card">
-            <i class="fas fa-utensils"></i>
-            <h3 id="totalRestaurants">0</h3>
-            <p>Tổng Nhà Hàng</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <div class="footer-title">
-              <i class="fas fa-utensils"></i>
-              <h4>Restaurant Finder</h4>
+        <!-- Stats Section -->
+        <section id="stats" class="stats">
+            <div class="container">
+                <h2>Thống Kê Người Dùng</h2>
+                <div class="user-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="totalUsers">0</h3>
+                        <p>Tổng Người Dùng</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <h3 id="totalReviews">0</h3>
+                        <p>Tổng Đánh Giá</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-utensils"></i>
+                        <h3 id="totalRestaurants">0</h3>
+                        <p>Tổng Nhà Hàng</p>
+                    </div>
+                </div>
             </div>
-            <p>Khám phá những nhà hàng tuyệt vời phù hợp với bạn!</p>
-          </div>
-          <div class="footer-section">
-            <h4>Liên Kết</h4>
-            <ul>
-              <li><a href="index.html">Trang Chủ</a></li>
-              <li><a href="restaurants.html">Nhà Hàng</a></li>
-              <li><a href="users.html">Người Dùng</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h4>Theo Dõi</h4>
-            <div class="social-links vertical">
-              <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-              <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
-              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            </div>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>© 2025 Restaurant Finder. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+        </section>
 
-    <script src="script.js"></script>
-  </body>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-title">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Restaurant Finder</h4>
+                        </div>
+                        <p>Khám phá những nhà hàng tuyệt vời phù hợp với bạn!</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Liên Kết</h4>
+                        <ul>
+                            <li><a href="index.html">Trang Chủ</a></li>
+                            <li><a href="restaurants.html">Nhà Hàng</a></li>
+                            <li><a href="users.html">Người Dùng</a></li>
+                            <li><a href="recommendations.html">Gợi Ý</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Theo Dõi</h4>
+                        <div class="social-links vertical">
+                            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2025 Restaurant Finder. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
 </html>

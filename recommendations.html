@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gợi Ý Nhà Hàng - Restaurant Finder</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <i class="fas fa-utensils"></i>
+          <span>Restaurant Finder</span>
+        </div>
+        <div class="nav-menu">
+          <a href="index.html" class="nav-link">Trang Chủ</a>
+          <a href="restaurants.html" class="nav-link">Nhà Hàng</a>
+          <a href="users.html" class="nav-link">Người Dùng</a>
+          <a href="recommendations.html" class="nav-link active">Gợi Ý</a>
+        </div>
+        <div class="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="recommendations">
+      <div class="container">
+        <h2>Hệ Thống Gợi Ý Nhà Hàng</h2>
+        <p class="section-description">
+          Chọn ID người dùng để nhận gợi ý nhà hàng phù hợp dựa trên sở thích và lịch sử đánh giá
+        </p>
+
+        <!-- User Selection -->
+        <div class="user-selection">
+          <div class="selection-container">
+            <label for="userSelect">Chọn ID Người Dùng:</label>
+            <select id="userSelect" class="user-dropdown">
+              <option value="">-- Chọn người dùng --</option>
+            </select>
+            <button id="getRecommendationsBtn" class="btn-primary" disabled>
+              <i class="fas fa-magic"></i> Lấy Gợi Ý
+            </button>
+          </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading" style="display: none;">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Đang tạo gợi ý nhà hàng...</p>
+        </div>
+
+        <!-- User Profile Display -->
+        <div id="userProfile" class="user-profile" style="display: none;">
+          <h3>Thông Tin Người Dùng</h3>
+          <div class="profile-info">
+            <div class="profile-item">
+              <strong>ID:</strong> <span id="profileUserId"></span>
+            </div>
+            <div class="profile-item">
+              <strong>Ngân sách:</strong> <span id="profileBudget"></span>
+            </div>
+            <div class="profile-item">
+              <strong>Mức độ uống rượu:</strong> <span id="profileDrinkLevel"></span>
+            </div>
+            <div class="profile-item">
+              <strong>Tổng đánh giá:</strong> <span id="profileTotalRatings"></span>
+            </div>
+            <div class="profile-item">
+              <strong>Đánh giá trung bình:</strong> <span id="profileAvgRating"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations Results -->
+        <div id="recommendationsResults" class="recommendations-results" style="display: none;">
+          <h3>Top 10 Nhà Hàng Được Gợi Ý</h3>
+          <div id="recommendationsList" class="recommendations-list">
+            <!-- Recommendations will be populated here -->
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="errorText"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-title">
+              <i class="fas fa-utensils"></i>
+              <h4>Restaurant Finder</h4>
+            </div>
+            <p>Khám phá những nhà hàng tuyệt vời phù hợp với bạn!</p>
+          </div>
+          <div class="footer-section">
+            <h4>Liên Kết</h4>
+            <ul>
+              <li><a href="index.html">Trang Chủ</a></li>
+              <li><a href="restaurants.html">Nhà Hàng</a></li>
+              <li><a href="users.html">Người Dùng</a></li>
+              <li><a href="recommendations.html">Gợi Ý</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Theo Dõi</h4>
+            <div class="social-links vertical">
+              <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+              <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Restaurant Finder. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="recommendations.js"></script>
+  </body>
+</html>
